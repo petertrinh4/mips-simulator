@@ -38,14 +38,11 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
 /* 10 Points */
 int instruction_fetch(unsigned PC,unsigned *Mem,unsigned *instruction)
 {
-
     if(PC % 4 != 0) {
         return 1; // Halts
     }
-
-    instruction = Mem[PC];
-
-    PC >> 2; // Should increment program counter by 4
+    
+    *instruction = Mem[PC >> 2];
 
     return 0;
 }
