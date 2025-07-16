@@ -13,6 +13,15 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
 int instruction_fetch(unsigned PC,unsigned *Mem,unsigned *instruction)
 {
 
+    if(PC % 4 != 0) {
+        return 1; // Halts
+    }
+
+    instruction = Mem[PC];
+
+    PC >> 2; // Should increment program counter by 4
+
+    return 0;
 }
 
 
@@ -21,6 +30,15 @@ int instruction_fetch(unsigned PC,unsigned *Mem,unsigned *instruction)
 void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1,unsigned *r2, unsigned *r3, unsigned *funct, unsigned *offset, unsigned *jsec)
 {
 
+    // Parse instruction and split into fields
+
+    op = 
+    r1 = 
+    r2 = 
+    r3 =
+    funct =
+    offset =
+    jsec =
 }
 
 
