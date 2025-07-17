@@ -188,9 +188,9 @@ void sign_extend(unsigned offset,unsigned *extended_value)
 {
 extended_value=00000000000000000000000000000000; // create empty 32 bit integer
 extended_value = extended_value + offset;
-if (offset>=1000000000000000)   // check if positive or negative
+if (offset<0)   // check if positive or negative
 {
-    extended_value = extended_value + 11111111111111110000000000000000; // if negative, fill left half with 1s
+    extended_value += 11111111111111110000000000000000; // if negative, fill left half with 1s
 }
 }
 
