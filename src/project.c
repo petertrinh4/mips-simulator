@@ -75,15 +75,15 @@ int instruction_decode(unsigned op,struct_controls *controls)
 
     if(op==000000) // R-Type
     {
-        controls->RegDst=;
-        controls->Jump=;
-        controls->Branch=;
-        controls->MemRead=;
-        controls->MemtoReg=;
-        controls->ALUOp=;
-        controls->MemWrite=;
-        controls->ALUSrc=;
-        controls->RegWrite=; 
+        controls->RegDst=1;
+        controls->Jump=0;
+        controls->Branch=0;
+        controls->MemRead=0;
+        controls->MemtoReg=0;
+        controls->ALUOp=10;
+        controls->MemWrite=0;
+        controls->ALUSrc=0;
+        controls->RegWrite=1; 
     }
     else
     {
