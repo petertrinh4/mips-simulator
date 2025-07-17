@@ -71,7 +71,7 @@ void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1,unsi
 int instruction_decode(unsigned op,struct_controls *controls)
 {
 
-
+    int Halt = 1;
 
     if(op==000000) // R-Type
     {
@@ -199,7 +199,7 @@ int instruction_decode(unsigned op,struct_controls *controls)
                                     }
                                     else
                                     {
-                                        Halt = 1;
+                                        return Halt;
                                     }
                                 }
                             }
@@ -315,7 +315,7 @@ int rw_memory(unsigned ALUresult,unsigned data2,char MemWrite,char MemRead,unsig
 void write_register(unsigned r2,unsigned r3,unsigned memdata,unsigned ALUresult,char RegWrite,char RegDst,char MemtoReg,unsigned *Reg)
 {
   if (RegWrite == 1) {
-        unsigned dest = (RegDst == 1) ? rd : rt;
+        unsigned dest = (RegDst == 1) ? r2 : r3;
         unsigned value = (MemtoReg == 1) ? memdata : ALUresult;
         Reg[dest] = value;
 
