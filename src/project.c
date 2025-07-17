@@ -309,8 +309,6 @@ int rw_memory(unsigned ALUresult,unsigned data2,char MemWrite,char MemRead,unsig
     return 0;
 }
 
-}
-
 
 /* Write Register */
 /* 10 Points */
@@ -321,6 +319,7 @@ void write_register(unsigned r2,unsigned r3,unsigned memdata,unsigned ALUresult,
         unsigned value = (MemtoReg == 1) ? memdata : ALUresult;
         Reg[dest] = value;
 
+}
 }
 
 /* PC update */
