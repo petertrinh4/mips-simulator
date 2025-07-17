@@ -71,7 +71,7 @@ void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1,unsi
 int instruction_decode(unsigned op,struct_controls *controls)
 {
 
-
+    int Halt = 1;
 
     if(op==000000) // R-Type
     {
@@ -199,7 +199,7 @@ int instruction_decode(unsigned op,struct_controls *controls)
                                     }
                                     else
                                     {
-                                        Halt = 1;
+                                        return Halt;
                                     }
                                 }
                             }
