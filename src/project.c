@@ -75,127 +75,127 @@ int instruction_decode(unsigned op,struct_controls *controls)
 
     if(op==000000) // R-Type
     {
-        controls.RegDst=;
-        controls.Jump=;
-        controls.Branch=;
-        controls.MemRead=;
-        controls.MemtoReg=;
-        controls.ALUOp=;
-        controls.MemWrite=;
-        controls.ALUSrc=;
-        controls.RegWrite=; 
+        controls->RegDst=;
+        controls->Jump=;
+        controls->Branch=;
+        controls->MemRead=;
+        controls->MemtoReg=;
+        controls->ALUOp=;
+        controls->MemWrite=;
+        controls->ALUSrc=;
+        controls->RegWrite=; 
     }
     else
     {
         if(op==001000) // add immediate
         {
-            controls.RegDst=0;
-            controls.Jump=0;
-            controls.Branch=0;
-            controls.MemRead=0;
-            controls.MemtoReg=0;
-            controls.ALUOp=0;
-            controls.MemWrite=0;
-            controls.ALUSrc=1;
-            controls.RegWrite=1; 
+            controls->RegDst=0;
+            controls->Jump=0;
+            controls->Branch=0;
+            controls->MemRead=0;
+            controls->MemtoReg=0;
+            controls->ALUOp=0;
+            controls->MemWrite=0;
+            controls->ALUSrc=1;
+            controls->RegWrite=1; 
         }
         else
         {
             if(op==100011) // load word
             {
-                controls.RegDst=0;
-                controls.Jump=0;
-                controls.Branch=0;
-                controls.MemRead=1;
-                controls.MemtoReg=1;
-                controls.ALUOp=0;
-                controls.MemWrite=0;
-                controls.ALUSrc=1;
-                controls.RegWrite=1; 
+                controls->RegDst=0;
+                controls->Jump=0;
+                controls->Branch=0;
+                controls->MemRead=1;
+                controls->MemtoReg=1;
+                controls->ALUOp=0;
+                controls->MemWrite=0;
+                controls->ALUSrc=1;
+                controls->RegWrite=1; 
             }
             else
             {
                 if(op==101011) // store word
                 {
-                    controls.RegDst=2;
-                    controls.Jump=0;
-                    controls.Branch=0;
-                    controls.MemRead=0;
-                    controls.MemtoReg=2;
-                    controls.ALUOp=0;
-                    controls.MemWrite=1;
-                    controls.ALUSrc=1;
-                    controls.RegWrite=0; 
+                    controls->RegDst=2;
+                    controls->Jump=0;
+                    controls->Branch=0;
+                    controls->MemRead=0;
+                    controls->MemtoReg=2;
+                    controls->ALUOp=0;
+                    controls->MemWrite=1;
+                    controls->ALUSrc=1;
+                    controls->RegWrite=0; 
                 }
                 else
                 {
                     if(op==001111) // load upper immediate
                     {
-                        controls.RegDst=0;
-                        controls.Jump=0;
-                        controls.Branch=0;
-                        controls.MemRead=0;
-                        controls.MemtoReg=0;
-                        controls.ALUOp=3;
-                        controls.MemWrite=0;
-                        controls.ALUSrc=1;
-                        controls.RegWrite=1; 
+                        controls->RegDst=0;
+                        controls->Jump=0;
+                        controls->Branch=0;
+                        controls->MemRead=0;
+                        controls->MemtoReg=0;
+                        controls->ALUOp=3;
+                        controls->MemWrite=0;
+                        controls->ALUSrc=1;
+                        controls->RegWrite=1; 
                     }
                     else
                     { 
                         if(op==000100) // branch on equal
                         {
-                            controls.RegDst=2;
-                            controls.Jump=0;
-                            controls.Branch=1;
-                            controls.MemRead=0;
-                            controls.MemtoReg=2;
-                            controls.ALUOp=1;
-                            controls.MemWrite=0;
-                            controls.ALUSrc=0;
-                            controls.RegWrite=0; 
+                            controls->RegDst=2;
+                            controls->Jump=0;
+                            controls->Branch=1;
+                            controls->MemRead=0;
+                            controls->MemtoReg=2;
+                            controls->ALUOp=1;
+                            controls->MemWrite=0;
+                            controls->ALUSrc=0;
+                            controls->RegWrite=0; 
                         }
                         else
                         {
                             if(op==001010) // set less than immediate
                             {
-                                controls.RegDst=0;
-                                controls.Jump=0;
-                                controls.Branch=0;
-                                controls.MemRead=0;
-                                controls.MemtoReg=0;
-                                controls.ALUOp=2;
-                                controls.MemWrite=0;
-                                controls.ALUSrc=1;
-                                controls.RegWrite=1; 
+                                controls->RegDst=0;
+                                controls->Jump=0;
+                                controls->Branch=0;
+                                controls->MemRead=0;
+                                controls->MemtoReg=0;
+                                controls->ALUOp=2;
+                                controls->MemWrite=0;
+                                controls->ALUSrc=1;
+                                controls->RegWrite=1; 
                             }
                             else
                             {
                                 if(op==001011) // set less than unsigned immediate
                                 {
-                                    controls.RegDst=0;
-                                    controls.Jump=0;
-                                    controls.Branch=0;
-                                    controls.MemRead=0;
-                                    controls.MemtoReg=0;
-                                    controls.ALUOp=2;
-                                    controls.MemWrite=0;
-                                    controls.ALUSrc=1;
-                                    controls.RegWrite=1; 
+                                    controls->RegDst=0;
+                                    controls->Jump=0;
+                                    controls->Branch=0;
+                                    controls->MemRead=0;
+                                    controls->MemtoReg=0;
+                                    controls->ALUOp=2;
+                                    controls->MemWrite=0;
+                                    controls->ALUSrc=1;
+                                    controls->RegWrite=1; 
                                 }
                                 else
                                 {
                                     if(op==000010) // jump
                                     {
-                                        controls.RegDst=2;
-                                        controls.Jump=1;
-                                        controls.Branch=0;
-                                        controls.MemRead=0;
-                                        controls.MemtoReg=2;
-                                        controls.ALUOp=2;
-                                        controls.MemWrite=0;
-                                        controls.ALUSrc=2;
-                                        controls.RegWrite=0; 
+                                        controls->RegDst=2;
+                                        controls->Jump=1;
+                                        controls->Branch=0;
+                                        controls->MemRead=0;
+                                        controls->MemtoReg=2;
+                                        controls->ALUOp=2;
+                                        controls->MemWrite=0;
+                                        controls->ALUSrc=2;
+                                        controls->RegWrite=0; 
                                     }
                                     else
                                     {
