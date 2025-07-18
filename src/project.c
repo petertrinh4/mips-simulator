@@ -7,10 +7,10 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
 {
     switch(ALUControl) {
         case 0:
-            *ALUresult = A+B;
+            *ALUresult = A + B;
             break;
         case 1:
-            *ALUresult = A-B;
+            *ALUresult = A - B;
             break;
         case 2:
             if((int)A < (int)B) {*ALUresult = 1; break;}
@@ -19,18 +19,19 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
             if(A < B) {*ALUresult = 1; break;}
             else {*ALUresult = 0; break;}
         case 4:
-            *ALUresult = A&B;
+            *ALUresult = A & B;
             break;
         case 5:
-            *ALUresult = A|B;
+            *ALUresult = A | B;
             break;
         case 6:
-            *ALUresult = B<<16;
+            *ALUresult = B << 16;
             break;
         case 7:
-            *ALUresult = ~A;
+            *ALUresult = ~ A;
             break;
     }
+
     *Zero = (*ALUresult == 0) ? 1 : 0; // Zero flag
 }
 
@@ -38,7 +39,7 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
 /* 10 Points */
 int instruction_fetch(unsigned PC,unsigned *Mem,unsigned *instruction)
 {
-    if(PC % 4 != 0) {
+    if(PC % 4 != 0) { // Checking for word alignment
         return 1; // Halts
     }
     
@@ -47,24 +48,19 @@ int instruction_fetch(unsigned PC,unsigned *Mem,unsigned *instruction)
     return 0;
 }
 
-
 /* instruction partition */
 /* 10 Points */
 void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1,unsigned *r2, unsigned *r3, unsigned *funct, unsigned *offset, unsigned *jsec)
 {
-
     // Parse instruction and split into fields
-
-    op = 
-    r1 = 
-    r2 = 
-    r3 =
-    funct =
-    offset =
-    jsec =
+    *op = (instruction >> 26) & 0x3F; // [31-26]
+    *r1 = (instruction >> 21) & 0x1F; // [25-21]
+    *r2 = (instruction >> 16) & 0x1F; // [20-16]
+    *r3 = (instruction >> 11) & 0x1F; // [15-11]
+    *funct = instruction & 0x3F; // [5-0]
+    *offset = instruction & 0xFFFF; // [15-0]
+    *jsec = instruction & 0x3FFFFFF; // [25-0]
 }
-
-
 
 /* instruction decode */
 /* 15 Points */
@@ -227,12 +223,18 @@ void read_register(unsigned r1,unsigned r2,unsigned *Reg,unsigned *data1,unsigne
 /* 10 Points */
 void sign_extend(unsigned offset,unsigned *extended_value)
 {
-extended_value=00000000000000000000000000000000; // create empty 32 bit integer
+/*extended_value=00000000000000000000000000000000; // create empty 32 bit integer
 extended_value = extended_value + offset;
 if (offset>=1000000000000000)   // check if positive or negative
 {
     extended_value += 11111111111111110000000000000000; // if negative, fill left half with 1s
-}
+}*/
+    if(offset & 0x8000) { // If the 16th bit is 1 then fill the rest with 1's
+        *extended_value = offset | 0xFFFF0000;
+    }
+    else {
+        *extended_value = offset & 0x0000FFFF;
+    }
 }
 
 /* ALU operations */
@@ -285,7 +287,6 @@ int ALU_operations(unsigned data1,unsigned data2,unsigned extended_value,unsigne
     return 0;
 }
 
-
 /* Read / Write Memory */
 /* 10 Points */
 int rw_memory(unsigned ALUresult,unsigned data2,char MemWrite,char MemRead,unsigned *memdata,unsigned *Mem)
@@ -309,7 +310,6 @@ int rw_memory(unsigned ALUresult,unsigned data2,char MemWrite,char MemRead,unsig
     return 0;
 }
 
-
 /* Write Register */
 /* 10 Points */
 void write_register(unsigned r2,unsigned r3,unsigned memdata,unsigned ALUresult,char RegWrite,char RegDst,char MemtoReg,unsigned *Reg)
@@ -326,6 +326,15 @@ void write_register(unsigned r2,unsigned r3,unsigned memdata,unsigned ALUresult,
 /* 10 Points */
 void PC_update(unsigned jsec,unsigned extended_value,char Branch,char Jump,char Zero,unsigned *PC)
 {
+    unsigned updated_PC = *PC += 4;
 
+    if(Branch == 1 && Zero == 1) {
+        updated_PC = updated_PC + (extended_value << 2);
+    }
+    else if(Jump == 1) {
+        updated_PC = (updated_PC & 0xF0000000) | (jsec << 2);
+    }
+
+    *PC = updated_PC;
 }
 
