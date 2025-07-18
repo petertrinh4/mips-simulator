@@ -75,14 +75,14 @@ int instruction_decode(unsigned op,struct_controls *controls)
         controls->Branch=0;
         controls->MemRead=0;
         controls->MemtoReg=0;
-        controls->ALUOp=10;
+        controls->ALUOp=7;
         controls->MemWrite=0;
         controls->ALUSrc=0;
         controls->RegWrite=1; 
     }
     else
     {
-        if(op==001000) // add immediate
+        if(op==0x08) // add immediate
         {
             controls->RegDst=0;
             controls->Jump=0;
@@ -96,7 +96,7 @@ int instruction_decode(unsigned op,struct_controls *controls)
         }
         else
         {
-            if(op==100011) // load word
+            if(op==0x23) // load word
             {
                 controls->RegDst=0;
                 controls->Jump=0;
@@ -110,7 +110,7 @@ int instruction_decode(unsigned op,struct_controls *controls)
             }
             else
             {
-                if(op==101011) // store word
+                if(op==0x2B) // store word
                 {
                     controls->RegDst=2;
                     controls->Jump=0;
@@ -124,7 +124,7 @@ int instruction_decode(unsigned op,struct_controls *controls)
                 }
                 else
                 {
-                    if(op==001111) // load upper immediate
+                    if(op==0x0F) // load upper immediate
                     {
                         controls->RegDst=0;
                         controls->Jump=0;
@@ -138,7 +138,7 @@ int instruction_decode(unsigned op,struct_controls *controls)
                     }
                     else
                     { 
-                        if(op==000100) // branch on equal
+                        if(op==0x04) // branch on equal
                         {
                             controls->RegDst=2;
                             controls->Jump=0;
@@ -152,7 +152,7 @@ int instruction_decode(unsigned op,struct_controls *controls)
                         }
                         else
                         {
-                            if(op==001010) // set less than immediate
+                            if(op==0x0A) // set less than immediate
                             {
                                 controls->RegDst=0;
                                 controls->Jump=0;
@@ -166,7 +166,7 @@ int instruction_decode(unsigned op,struct_controls *controls)
                             }
                             else
                             {
-                                if(op==001011) // set less than unsigned immediate
+                                if(op==0x0B) // set less than unsigned immediate
                                 {
                                     controls->RegDst=0;
                                     controls->Jump=0;
@@ -180,7 +180,7 @@ int instruction_decode(unsigned op,struct_controls *controls)
                                 }
                                 else
                                 {
-                                    if(op==000010) // jump
+                                    if(op==0x02) // jump
                                     {
                                         controls->RegDst=2;
                                         controls->Jump=1;
@@ -316,7 +316,7 @@ int rw_memory(unsigned ALUresult,unsigned data2,char MemWrite,char MemRead,unsig
 void write_register(unsigned r2,unsigned r3,unsigned memdata,unsigned ALUresult,char RegWrite,char RegDst,char MemtoReg,unsigned *Reg)
 {
   if (RegWrite == 1) {
-        unsigned dest = (RegDst == 1) ? r2 : r3;
+        unsigned dest = (RegDst == 1) ? r3 : r2;
         unsigned value = (MemtoReg == 1) ? memdata : ALUresult;
         Reg[dest] = value;
 
@@ -327,7 +327,7 @@ void write_register(unsigned r2,unsigned r3,unsigned memdata,unsigned ALUresult,
 /* 10 Points */
 void PC_update(unsigned jsec,unsigned extended_value,char Branch,char Jump,char Zero,unsigned *PC)
 {
-    unsigned updated_PC = *PC += 4;
+    unsigned updated_PC = *PC + 4;
 
     if(Branch == 1 && Zero == 1) {
         updated_PC = updated_PC + (extended_value << 2);
